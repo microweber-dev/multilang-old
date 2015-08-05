@@ -17,14 +17,14 @@ mw.options.form('#<?php echo $params['id']; ?>', function() {
 });
 
 $('#default_lang').on('change', function() {
-  $.post('/api/multilang_set_default', { lang: $(this).val() }, reload_after_save);
+  $.post('<?php print api_url() ?>multilang_set_default', { lang: $(this).val() }, reload_after_save);
 });
 
 $('#add_lang').click(function(e) {
   e.preventDefault();
   var lang = $('#site_langs').val();
   if(lang && typeof(MULTILANG_LOCALES[lang]) !== 'undefined') {
-    $.post('/api/multilang_add', { 'lang': lang }, reload_after_save);
+    $.post('<?php print api_url() ?>multilang_add', { 'lang': lang }, reload_after_save);
   }
 });
 
@@ -32,7 +32,7 @@ $('.remove_lang').click(function(e) {
   e.preventDefault();
   var lang = $(this).data('lang');
   if(lang && confirm("<?php _e('Are you sure you want to remove this language?'); ?>"))
-  $.post('/api/multilang_remove', { 'lang': lang }, reload_after_save);
+  $.post('<?php print api_url() ?>multilang_remove', { 'lang': lang }, reload_after_save);
 });
 
 for(var lk in MULTILANG_LOCALES) {
