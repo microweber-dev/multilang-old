@@ -19,14 +19,13 @@
     } else {
         $template_file = module_templates($config['module'], 'default');
     }
-
+ 
     if (isset($template_file) and is_file($template_file)!=false){
         include($template_file);
     }
-    
+
     ?>
-    <script type="text/javascript"
-            src="<?php echo $config['url_to_module']; ?>langs.js"></script>
+     
 <?php else: ?>
     <?php if (in_live_edit()): ?>
         <span>(Open module settings to enable multi language support)</span>

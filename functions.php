@@ -89,10 +89,11 @@ event_bind('mw.database.before_update', function ($data) {
 //
 //    print '<script type="text/javascript" src="' . $url . 'langs.js"></script>';
 //}
-
+//
 
 event_bind('mw.admin', 'multilang_admin_set_ui');
-event_bind('mw.live_edit', 'multilang_admin_set_ui');
+//event_bind('mw.live_edit', 'multilang_admin_set_ui');
+event_bind('mw.front', 'multilang_admin_set_ui');
 
 
 function multilang_admin_set_ui() {
@@ -113,6 +114,13 @@ function multilang_admin_set_ui() {
 
     mw()->modules->ui('content.manager.tree.after', $ui);
     mw()->modules->ui('live_edit.toolbar.action_menu.start', $ui);
+
+
+
+    $url = module_url('multilang');
+
+    mw()->template->head($url . 'langs.js');
+    mw()->template->admin_head($url . 'langs.js');
 
 }
 
