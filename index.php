@@ -28,6 +28,6 @@
      
 <?php else: ?>
     <?php if (in_live_edit()): ?>
-        <span>(Open module settings to enable multi language support)</span>
+      <!--  <span>(Open module settings to enable multi language support)</span>-->
     <?php endif; ?>
 <?php endif; ?>

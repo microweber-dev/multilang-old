@@ -98,6 +98,11 @@ event_bind('mw.front', 'multilang_admin_set_ui');
 
 function multilang_admin_set_ui() {
 
+
+    if (!get_option('is_multilang', 'website')) {
+        return;
+    }
+
     $html = load_module('multilang/index_admin');
     $html_small = load_module('multilang/index_admin', array('display' => 'small'));
     $ui = array();
