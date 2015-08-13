@@ -1,6 +1,6 @@
 <?php
 
-current_lang();
+$lang = current_lang();
 
 api_expose_admin('multilang_set_default');
 function multilang_set_default() {
@@ -63,8 +63,6 @@ require_once 'Laravel/Translator.php';
 require_once 'Laravel/SqlParser.php';
 
 
-
-
 event_bind('mw.database.select', function ($data) {
     app('mw.translator')->translate($data['query'], $data['result']);
 });
@@ -99,7 +97,7 @@ event_bind('mw.front', 'multilang_admin_set_ui');
 function multilang_admin_set_ui() {
 
 
-    if (!get_option('is_multilang', 'website')) {
+    if (!get_option('is_multilang', 'website')){
         return;
     }
 
@@ -121,11 +119,32 @@ function multilang_admin_set_ui() {
     mw()->modules->ui('live_edit.toolbar.action_menu.start', $ui);
 
 
-
     $url = module_url('multilang');
 
     mw()->template->head($url . 'langs.js');
     mw()->template->admin_head($url . 'langs.js');
+
+
+    
+
+     if (get_option('multilang_use_rtl', 'website')){
+     
+        $lang = current_lang();
+    
+        $rtl = array('ar', 'he', 'ur'); //make a list of rtl languages
+        $textdir = 'ltr';
+        if (in_array($lang, $rtl)){ //is this a rtl language?
+            $textdir = 'rtl'; //switch the direction
+        }
+     
+        mw()->template->html_opening_tag('dir', $textdir);
+        mw()->template->html_opening_tag('lang', $lang);
+        mw()->template->meta('language', multilang_locale_name($lang));
+     }
+
+
+
+
 
 }
 
@@ -139,26 +158,12 @@ function multilang_admin_ui() {
 //event_bind('mw_admin_edit_page_tabs_nav', 'multilang_admin_ui'
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //Locales array
 
 function multilang_locale_name($key) {
     $list = multilang_locales_list();
-    if(isset($list[$key])){
-        return $list[$key];
+    if (isset($list[ $key ])){
+        return $list[ $key ];
     } else {
         return $key;
     }
@@ -308,5 +313,6 @@ function multilang_locales_list() {
         "zu"      => "Zulu"
 
     );
+
     return $result;
 }

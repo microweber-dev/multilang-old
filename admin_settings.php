@@ -8,6 +8,16 @@
 	</label>
 </div>
 
+
+<div>
+	<label class="mw-ui-check">
+		<input name="multilang_use_rtl" type="checkbox" class="mw_option_field" value="1" option-group="website" <?php if( get_option('multilang_use_rtl', 'website') ) echo 'checked'; ?>>
+		<span></span>
+		<span>Use <a href="https://en.wikipedia.org/wiki/Right-to-left" target="_blank">RTL</a> for text transformation</span>
+	</label>
+</div>
+
+
 <div>
 	<label class="mw-ui-check">
 		<input name="mutilang_no_fallback" class="mw_option_field" type="checkbox" value="1" option-group="website" <?php if( get_option('mutilang_no_fallback', 'website') ) echo 'checked'; ?>>
