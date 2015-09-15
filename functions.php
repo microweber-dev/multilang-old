@@ -131,7 +131,7 @@ function multilang_admin_set_ui() {
      
         $lang = current_lang();
     
-        $rtl = array('ar', 'he', 'ur'); //make a list of rtl languages
+        $rtl = array('ar', 'he', 'ur', 'fa'); //make a list of rtl languages
         $textdir = 'ltr';
         if (in_array($lang, $rtl)){ //is this a rtl language?
             $textdir = 'rtl'; //switch the direction
