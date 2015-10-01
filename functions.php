@@ -1,6 +1,19 @@
 <?php
 
-$lang = current_lang();
+if (get_option('is_multilang', 'website')){
+    $lang = current_lang();
+
+
+    require_once 'Laravel/multilang.php';
+    require_once 'Laravel/Translator.php';
+    require_once 'Laravel/SqlParser.php';
+
+
+    require_once 'Laravel/MultilanguageFileCacheDriver.php';
+    $cache_adapter = new \Multilanguage\MultilanguageFileCacheDriver();
+    Cache::setAdapter($cache_adapter);
+
+}
 
 api_expose_admin('multilang_set_default');
 function multilang_set_default() {
@@ -58,11 +71,6 @@ function multilang_locales() {
 }
 
 
-require_once 'Laravel/multilang.php';
-require_once 'Laravel/Translator.php';
-require_once 'Laravel/SqlParser.php';
-
-
 event_bind('mw.database.select', function ($data) {
     app('mw.translator')->translate($data['query'], $data['result']);
 });
@@ -76,17 +84,17 @@ event_bind('mw.database.before_update', function ($data) {
 
 // UI
 //
-//event_bind('admin_head', 'multilang_admin_set_static_files');
-//event_bind('site_header', 'multilang_admin_set_static_files');
+// event_bind('admin_head', 'multilang_admin_set_static_files');
+// event_bind('site_header', 'multilang_admin_set_static_files');
 //
 //
 //
 //
-//function multilang_admin_set_static_files() {
+// function multilang_admin_set_static_files() {
 //    $url = module_url('multilang');
 //
 //    print '<script type="text/javascript" src="' . $url . 'langs.js"></script>';
-//}
+// }
 //
 
 event_bind('mw.admin', 'multilang_admin_set_ui');
@@ -125,25 +133,20 @@ function multilang_admin_set_ui() {
     mw()->template->admin_head($url . 'langs.js');
 
 
-    
+    if (get_option('multilang_use_rtl', 'website')){
 
-     if (get_option('multilang_use_rtl', 'website')){
-     
         $lang = current_lang();
-    
+
         $rtl = array('ar', 'he', 'ur', 'fa'); //make a list of rtl languages
         $textdir = 'ltr';
         if (in_array($lang, $rtl)){ //is this a rtl language?
             $textdir = 'rtl'; //switch the direction
         }
-     
+
         mw()->template->html_opening_tag('dir', $textdir);
         mw()->template->html_opening_tag('lang', $lang);
         mw()->template->meta('language', multilang_locale_name($lang));
-     }
-
-
-
+    }
 
 
 }
