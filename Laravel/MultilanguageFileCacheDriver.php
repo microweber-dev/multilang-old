@@ -3,8 +3,6 @@
 
 namespace Multilanguage;
 
-
-use Closure;
 use Microweber\Utils\Adapters\Cache\Storage\FileStorage;
 
 class MultilanguageFileCacheDriver extends FileStorage {

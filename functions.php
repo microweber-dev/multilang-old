@@ -10,8 +10,13 @@ if (get_option('is_multilang', 'website')){
 
 
     require_once 'Laravel/MultilanguageFileCacheDriver.php';
-    $cache_adapter = new \Multilanguage\MultilanguageFileCacheDriver();
-    Cache::setAdapter($cache_adapter);
+    try {
+        $cache_adapter = new \Multilanguage\MultilanguageFileCacheDriver();
+        Cache::setAdapter($cache_adapter);
+    } catch (ErrorException $e) {
+       return;
+    }
+
 
 }
 
@@ -77,7 +82,7 @@ event_bind('mw.database.select', function ($data) {
 
 event_bind('mw.database.before_update', function ($data) {
     if (app('mw.translator')->store($data['query'], $data['bindings'])){
-        throw new \Exception('Intentional query execution cancelation.');
+        throw new \Exception('Intentional query execution cancellation.');
     }
 });
 
