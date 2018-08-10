@@ -7,7 +7,7 @@ foreach (multilang_locales() as $lang) {
 	$translatedContent[$lang] = $translations
 		->where('translatable_type', 'content')
 		->where('lang', $lang)
-		->lists('translatable_id');
+		->pluck('translatable_id');
 }
 
 ?>
@@ -45,7 +45,7 @@ foreach (multilang_locales() as $lang) {
 			</td>
 			<?php foreach (multilang_locales() as $lang): ?>
 			<td>
-				<?php if($lang == config('app.fallback_locale') || in_array($item['id'], $translatedContent[$lang])): ?>
+				<?php if($lang == config('app.fallback_locale') || $translatedContent[$lang]->search($item['id'])): ?>
 				<span class="mw-icon mw-icon-check"></span>
 				<?php endif; ?>
 			</td>
